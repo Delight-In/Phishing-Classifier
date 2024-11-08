@@ -1,4 +1,7 @@
 src/constant/
+config/
+notebook implementation/
+prediction_artifacts/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
