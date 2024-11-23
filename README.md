@@ -1,7 +1,5 @@
 # Phishing Website Detection Model
 
-This repository contains the code for training and using a machine learning model to classify websites as either phishing or legitimate based on various features. The model utilizes a set of features derived from the URL and domain of the website, and it outputs a classification result (phishing or legitimate).
-
 ### Dataset Description
 
 The dataset contains information about websites and is used to predict whether a website is phishing or legitimate. The dataset has the following columns:
@@ -39,57 +37,3 @@ The dataset contains information about websites and is used to predict whether a
 | **Links_pointing_to_page**           | The number of links pointing to the website.                                                      |
 | **Statistical_report**               | Indicates whether a statistical report is present for the website (1 for yes, 0 for no).         |
 | **Result**                           | The target label: 1 indicates phishing, 0 indicates legitimate.                                     |
-
-### Code Overview
-
-This repository includes a **ModelTrainer** class that trains a machine learning model on the provided dataset and saves it for future use. The model is then used to predict whether a given URL is phishing or legitimate.
-
-### Requirements
-
-- Python 3.x
-- Required libraries:
-  - `scikit-learn`
-  - `joblib`
-  - `pandas`
-  - `numpy`
-  - `xgboost`
-
-You can install the required libraries using the following:
-
-```bash
-pip install -r requirements.txt
-```
-
-### Code Description
-
-#### ModelTrainer Class
-
-The `ModelTrainer` class is responsible for the following tasks:
-
-1. **Model Initialization**:
-   - Initializes multiple machine learning models: `GaussianNB`, `LogisticRegression`, and `XGBClassifier`.
-   - Initializes parameter grids for hyperparameter tuning (using `GridSearchCV`).
-
-2. **Model Training**:
-   - Trains the models using the provided dataset and evaluates them using accuracy scores on both training and test data.
-
-3. **Model Selection**:
-   - Selects the best performing model based on accuracy score.
-   - Fine-tunes the best model (optional) using grid search.
-
-4. **Saving the Model**:
-   - Once the best model is trained and tuned, it is saved to disk using `joblib` for later use in prediction.
-
-5. **Prediction**:
-   - Loads the saved model and uses it to predict whether a given URL is phishing or legitimate based on the provided features.
-
-### How to Use the Model
-
-**Training the Model**:
-   - Load the dataset and use the `ModelTrainer` class to train the model:
-   
-     ```python
-     from model_trainer import ModelTrainer
-     model_trainer = ModelTrainer("trained_model.pkl")
-     model_trainer.initiate_model_trainer(X_train, y_train, X_test, y_test)
-     ```
