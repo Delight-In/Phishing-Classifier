@@ -10,11 +10,18 @@ from src.configuration.mongo_db_connection import MongoDBClient
 from src.exception import CustomException
 import os
 
+
 class PhisingData:
+    """
+    This class help to export entire mongo db record as pandas dataframe
+    """
 
-    def __init__(self, database_name: str):
-
+    def __init__(self,
+                 database_name: str):
+        """
+        """
         try:
+
             self.database_name = database_name
             self.mongo_url = os.getenv("MONGO_DB_URL")
 
@@ -45,12 +52,18 @@ class PhisingData:
     def export_collections_as_dataframe(
             self) -> pd.DataFrame:
         try:
+            """
+            export entire collectin as dataframe:
+            return dd.DataFrame of collection
+            """
 
             collections = self.get_collection_names()
 
             for collection_name in collections:
                 df = self.get_collection_data(collection_name=collection_name)
                 yield collection_name, df
+
+
 
         except Exception as e:
             raise CustomException(e, sys)

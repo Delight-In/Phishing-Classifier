@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import pickle
 import yaml
+import boto3
 
 from src.constant import *
 from src.exception import CustomException
@@ -33,6 +34,8 @@ class MainUtils:
         except Exception as e:
             raise CustomException(e, sys) from e
 
+    
+
     @staticmethod
     def save_object(file_path: str, obj: object) -> None:
         logging.info("Entered the save_object method of MainUtils class")
@@ -46,6 +49,7 @@ class MainUtils:
         except Exception as e:
             raise CustomException(e, sys) from e
 
+    
 
     @staticmethod
     def load_object(file_path: str) -> object:
@@ -61,10 +65,43 @@ class MainUtils:
 
         except Exception as e:
             raise CustomException(e, sys) from e
-    
+        
+    @staticmethod
+    def upload_file(from_filename, to_filename, bucket_name):
+        try:
+            s3_resource = boto3.resource("s3")
+
+            s3_resource.meta.client.upload_file(from_filename, bucket_name, to_filename)
+
+        except Exception as e:
+            raise CustomException(e, sys)
+
+    @staticmethod
+    def download_model(bucket_name, bucket_file_name, dest_file_name):
+        try:
+            s3_client = boto3.client("s3")
+
+            s3_client.download_file(bucket_name, bucket_file_name, dest_file_name)
+
+            return dest_file_name
+
+        except Exception as e:
+            raise CustomException(e, sys)
 
     @staticmethod
     def remove_unwanted_spaces(data: pd.DataFrame) -> pd.DataFrame:
+        """
+                        Method Name: remove_unwanted_spaces
+                        Description: This method removes the unwanted spaces from a pandas dataframe.
+                        Output: A pandas DataFrame after removing the spaces.
+                        On Failure: Raise Exception
+
+                        Written By: iNeuron Intelligence
+                        Version: 1.0
+                        Revisions: None
+
+                """
+
         try:
             df_without_spaces = data.apply(
                 lambda x: x.str.strip() if x.dtype == "object" else x)  # drop the labels specified in the columns

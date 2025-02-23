@@ -1,7 +1,9 @@
 from datetime import datetime
 import os
 
-MONGO_DATABASE_NAME = "phising"
+AWS_S3_BUCKET_NAME = "sensor"
+MONGO_DATABASE_NAME = "Phising"
+
 TARGET_COLUMN = "Result"
 
 MODEL_FILE_NAME = "model"

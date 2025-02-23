@@ -18,6 +18,7 @@ def train_route():
     try:
         train_pipeline = TrainingPipeline()
         train_pipeline.run_pipeline()
+
         return "Training Completed."
 
     except Exception as e:
@@ -41,6 +42,8 @@ def predict():
 
     except Exception as e:
         raise CustomException(e,sys)
+    
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug= True)

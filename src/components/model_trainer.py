@@ -36,7 +36,9 @@ class VisibilityModel:
 
         try:
             logging.info("Using the trained model to get predictions")
+
             transformed_feature = self.preprocessing_object.transform(X)
+
             logging.info("Used the trained model to get predictions")
 
             return self.trained_model_object.predict(transformed_feature)
@@ -55,6 +57,7 @@ class ModelTrainer:
     def __init__(self):
 
         self.model_trainer_config = ModelTrainerConfig()
+
         self.utils = MainUtils()
 
         self.models = {
@@ -75,11 +78,17 @@ class ModelTrainer:
 
             for i in range(len(list(models))):
                 model = list(models.values())[i]
+
                 model.fit(X_train, y_train)  # Train model
+
                 y_train_pred = model.predict(X_train)
+
                 y_test_pred = model.predict(X_test)
+
                 train_model_score = accuracy_score(y_train, y_train_pred)
+
                 test_model_score = accuracy_score(y_test, y_test_pred)
+
                 report[list(models.keys())[i]] = test_model_score
 
             return report
@@ -113,6 +122,7 @@ class ModelTrainer:
             ]
 
             best_model_object = self.models[best_model_name]
+
             return best_model_name, best_model_object, best_model_score
 
 
@@ -125,6 +135,7 @@ class ModelTrainer:
                             X_train,
                             y_train,
                             ) -> object:
+
         try:
 
             model_param_grid = self.utils.read_yaml_file(self.model_trainer_config.model_config_file_path)["model_selection"]["model"][
@@ -134,7 +145,9 @@ class ModelTrainer:
                 best_model_object, param_grid=model_param_grid, cv=5, n_jobs=-1, verbose=1)
 
             grid_search.fit(X_train, y_train)
+
             best_params = grid_search.best_params_
+
             print("best params are:", best_params)
 
             finetuned_model = best_model_object.set_params(**best_params)
@@ -209,6 +222,10 @@ class ModelTrainer:
                 file_path=self.model_trainer_config.trained_model_path,
                 obj=custom_model,
             )
+
+            self.utils.upload_file(from_filename=self.model_trainer_config.trained_model_path,
+                                   to_filename="model.pkl",
+                                   bucket_name=AWS_S3_BUCKET_NAME)
 
             return best_model_score
 

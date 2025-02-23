@@ -1,5 +1,6 @@
 import pathlib
-import sys
+import sys, os
+
 import numpy as np
 
 from src.components.data_ingestion import DataIngestion
