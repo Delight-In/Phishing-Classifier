@@ -45,7 +45,7 @@ def upload_files_to_mongodb(mongo_client_con_string, database_name, datasets_dir
             print(f"{file_name} is uploaded to MongoDB")
 
 # Example usage: Update the following variables as needed
-client_url = "mongodb+srv://priyanka369runa97531:_priyanka_123_@workflow.cusps.mongodb.net/?retryWrites=true&w=majority&appName=WorkFlow"
+client_url = ""
 database_name = "Phishing"  # MongoDB database name
 datasets_dir_name = r"G:\PROJECT3_PHISHING_CLASSIFIERS\upload_data_to_db"  # Directory containing the CSV files
 
